@@ -1,60 +1,515 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html  >
 <html>
 <head>
-  <!-- Import Vega & Vega-Lite (does not have to be from CDN) -->
-  <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.1.0"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.17.0"></script>
-  
-  <!-- CSS file -->
-  <link rel="stylesheet" type="text/css" href="css/styles.css" media="all">
-
-
+    <title></title>
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.1.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.17.0"></script>
 </head>
 <body>
-  
-<div id="choropleth_map"></div>
+    <div class=" wrap">
+        <div class="top">
+            <div class="logo">
+                <img src="images/logo.png" />
+            </div>
+            <div class="text">
+                <div class="spics">
+                    <img src="images/1.png" />
+                    <img src="images/2.png" />
+                    <img src="images/3.png" />
+                    <img src="images/4.png" />
+                    <img src="images/5.png" />
+                    <img src="images/6.png" />
+                    <img src="images/7.png" />
+                    <img src="images/8.png" />
+                    <img src="images/9.png" />
+                    <img src="images/10.png" />
+                    <img src="images/11.png" />
+                    <img src="images/12.png" />
+                    <img src="images/13.png" />
+                    <img src="images/14.png" />
+                </div>
+                <h1>
+                    <span style="color: #570cd9;">T</span><span style="color: #e2cb65;">O</span><span
+                        style="color: #000;">K</span><span style="color: #669e5f;">Y</span><span style="color: #ff0300;">O</span>
+                    OLYMPICS</h1>
+                <p>
+                    Tokyo Olympics postponded because of the Covid-19 pandemic . This is the frist occasion
+                    when that the Olympic Games have been delayed and rescheduled. Tokyo Olympics postponded
+                    because of the Covid-19 pandemic . This is the frist occasion when that the Olympic
+                    Games have been delayed and rescheduled.</p>
+            </div>
+        </div>
+        <div class="index-map">
+            <div id="choropleth_map">
+            </div>
+            <script type="text/javascript">
 
-<script type="text/javascript">
-
-  var spec2 = {
-  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "title": "Olympics Data of Gold Medals Achieved By Different Countries",
-  "width": 1100,
+                var spec2 = {
+                    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+                    "title": "Olympics Data of Gold Medals Achieved By Different Countries",
+                    "width": 1100,
+                    "height": 400,
+                    "projection": { "type": "equalEarth" },
+                    "data": {
+                        "url": "https://raw.githubusercontent.com/Utkarsh-Monash/3179-Repo/main/Assignment%202/js/ne_110m_admin_0_countries.topojson",
+                        "format": { "type": "topojson", "feature": "ne_110m_admin_0_countries" }
+                    },
+                    "transform": [
+    {
+        "lookup": "properties.NAME",
+        "from": {
+            "data": {
+                "url": "https://raw.githubusercontent.com/HanMuYa/python-learning/master/Tokyo_2021_dataset.csv"
+            },
+            "key": "Country",
+            "fields": ["Gold"]
+        }
+    },
+    { "calculate": "datum.Gold / 1 + 0.1", "as": "Gold" },
+  ],
+                    "mark": { "type": "geoshape" },
+                    "encoding": {
+                        "color": {
+                            "field": "Gold",
+                            "type": "quantitative",
+                            "scale": { "type": "log" }
+                        },
+                        "tooltip": [
+      { "field": "properties.NAME", "type": "nominal", "title": "Country" },
+      { "field": "Gold", "type": "quantitative", "title": "Achieved Gold Medals" }
+    ]
+                    }
+                };
+                vegaEmbed("#choropleth_map", spec2);
+            </script>
+        </div>
+        <div class=" bottom">
+            <div class="bottom1">
+                <img src="images/2020_Summer_Olympics.png" />
+                <div>
+                    <p>
+                        Total Athletes</p>
+                    <p>
+                        11,085</p>
+                    <img src="images/t1.png" />
+                </div>
+                <div>
+                    <p>
+                        Total Coaches</p>
+                    <p>
+                        394</p>
+                    <img src="images/t2.png" />
+                </div>
+                <div>
+                    <p>
+                        Total Male</p>
+                    <p>
+                        5,884</p>
+                    <img src="images/t3.png" />
+                </div>
+                <div>
+                    <p>
+                        Total Female</p>
+                    <p>
+                        5,432</p>
+                    <img src="images/t4.png" />
+                </div>
+            </div>
+            <div class="bottom2">
+                <div class="b2-1">
+                    <div class="b2-3">
+                        <div id="vis2">
+                    </div>
+                    <script>
+    const spec3 = {
+  "title": "TOP 10 Countries with most Medals",
+  "width": 400,
   "height": 400,
-  "projection": {"type": "equalEarth"},
   "data": {
-    "url": "https://raw.githubusercontent.com/Utkarsh-Monash/3179-Repo/main/Assignment%202/js/ne_110m_admin_0_countries.topojson",
-    "format": {"type": "topojson", "feature": "ne_110m_admin_0_countries"}
+    "values": [
+      {"variety": "United States of America", "yield": 39, "site": "Gold"},
+      {"variety": "United States of America", "yield": 41, "site": "Silver"},
+      {"variety": "United States of America", "yield": 33, "site": "Bronze"},
+      {"variety": "People's Republic of China", "yield": 38, "site": "Gold"},
+      {"variety": "People's Republic of China", "yield": 32, "site": "Silver"},
+      {"variety": "People's Republic of China", "yield": 18, "site": "Bronze"},
+      {"variety": "ROC", "yield": 20, "site": "Gold"},
+      {"variety": "ROC", "yield": 28, "site": "Silver"},
+      {"variety": "ROC", "yield": 23, "site": "Bronze"},
+      {"variety": "Great Britain", "yield": 22, "site": "Gold"},
+      {"variety": "Great Britain", "yield": 21, "site": "Silver"},
+      {"variety": "Great Britain", "yield": 22, "site": "Bronze"},
+      {"variety": "Japan", "yield": 27, "site": "Gold"},
+      {"variety": "Japan", "yield": 14, "site": "Silver"},
+      {"variety": "Japan", "yield": 17, "site": "Bronze"},
+      {"variety": "Australia", "yield": 17, "site": "Gold"},
+      {"variety": "Australia", "yield": 7, "site": "Silver"},
+      {"variety": "Australia", "yield": 22, "site": "Bronze"},
+      {"variety": "Italy", "yield": 10, "site": "Gold"},
+      {"variety": "Italy", "yield": 10, "site": "Silver"},
+      {"variety": "Italy", "yield": 20, "site": "Bronze"},
+      {"variety": "Germany", "yield": 10, "site": "Gold"},
+      {"variety": "Germany", "yield": 11, "site": "Silver"},
+      {"variety": "Germany", "yield": 16, "site": "Bronze"},
+      {"variety": "Netherlands", "yield": 10, "site": "Gold"},
+      {"variety": "Netherlands", "yield": 12, "site": "Silver"},
+      {"variety": "Netherlands", "yield": 14, "site": "Bronze"},
+      {"variety": "France", "yield": 10, "site": "Gold"},
+      {"variety": "France", "yield": 12, "site": "Silver"},
+      {"variety": "France", "yield": 11, "site": "Bronze"}
+    ]
+  },
+  "mark": "bar",
+  "encoding": {
+    "x": {"aggregate": "sum", "field": "yield", "title": ""},
+    "y": {"field": "variety", "sort": "-x", "title": ""},
+    "color": {
+      "field": "site",
+      "sort": ["Gold", "Silver", "Bronze"],
+      "scale": {"range": ["#B8B0AD", "#A7786E", "#FCB04D"]},
+      "title": ""
+    }
+  },
+  "config": {}
+};
+    vegaEmbed("#vis2", spec3, {mode: "vega-lite"}).then(console.log).catch(console.warn);
+  </script>
+                </div>
+                <div class="b2-4">
+                    
+
+
+                     <div id="vis4">
+                    </div>
+  <script>
+    const spec4 = {
+  "width": 800,
+  "height": 800,
+  "padding": {"left": 5, "right": 5, "top": 20, "bottom": 0},
+  "autosize": "none",
+  "signals": [
+    {"name": "cx", "update": "width / 2"},
+    {"name": "cy", "update": "height / 2"},
+    {
+      "name": "gravityX",
+      "value": 0.2,
+      "bind": {"input": "range", "min": 0, "max": 1}
+    },
+    {
+      "name": "gravityY",
+      "value": 0.1,
+      "bind": {"input": "range", "min": 0, "max": 1}
+    }
+  ],
+  "data": [
+    {
+      "name": "table",
+      "values": [
+        {"category": "Athletics", "amount": 10.68},
+        {"category": "Swimming", "amount": 7.43},
+        {"category": "Football", "amount": 5.67},
+        {"category": "Rowing", "amount": 4.96},
+        {"category": "Hockey", "amount": 4.06},
+        {"category": "Judo", "amount": 3.73}
+      ]
+    }
+  ],
+  "scales": [
+    {
+      "name": "size",
+      "domain": {"data": "table", "field": "amount"},
+      "range": [100, 3000]
+    },
+    {
+      "name": "color",
+      "type": "ordinal",
+      "domain": {"data": "table", "field": "category"},
+      "range": "ramp"
+    }
+  ],
+  "marks": [
+    {
+      "name": "nodes",
+      "type": "symbol",
+      "from": {"data": "table"},
+      "encode": {
+        "enter": {
+          "fill": {"scale": "color", "field": "category"},
+          "xfocus": {"signal": "cx"},
+          "yfocus": {"signal": "cy"}
+        },
+        "update": {
+          "size": {"signal": "pow(2 * datum.amount, 2)", "scale": "size"},
+          "stroke": {"value": "white"},
+          "strokeWidth": {"value": 1},
+          "tooltip": {"signal": "datum"}
+        }
+      },
+      "transform": [
+        {
+          "type": "force",
+          "iterations": 100,
+          "static": false,
+          "forces": [
+            {
+              "force": "collide",
+              "iterations": 2,
+              "radius": {"expr": "sqrt(datum.size) / 2"}
+            },
+            {"force": "center", "x": {"signal": "cx"}, "y": {"signal": "cy"}},
+            {"force": "x", "x": "xfocus", "strength": {"signal": "gravityX"}},
+            {"force": "y", "y": "yfocus", "strength": {"signal": "gravityY"}}
+          ]
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "from": {"data": "nodes"},
+      "encode": {
+        "enter": {
+          "align": {"value": "center"},
+          "baseline": {"value": "middle"},
+          "fontSize": {"value": 20},
+          "fontWeight": {"value": "bold"},
+          "fill": {"value": "white"},
+          "text": {"field": "datum.category"}
+        },
+        "update": {"x": {"field": "x"}, "y": {"field": "y"}}
+      }
+    }
+  ],
+  "config": {}
+};
+    vegaEmbed("#vis4", spec4, {mode: "vega"}).then(console.log).catch(console.warn);
+  </script>
+
+
+
+
+                </div>
+            </div>
+            <div class="b2-2">
+                <div id="vis1">
+                </div>
+                <script>
+    const spec = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "A simple bar chart with embedded data.",
+  "width": 800,
+  "height": 400,
+  "data": {
+    "values": [
+      {"discipline": "Basketball", "count": 74},
+      {"discipline": "Artistic Swimming", "count": 69},
+      {"discipline": "Football", "count": 59},
+      {"discipline": "Hockey", "count": 45},
+      {"discipline": "Volleyball", "count": 45},
+      {"discipline": "Handball", "count": 29},
+      {"discipline": "Baseball/Softball", "count": 26},
+      {"discipline": "Rugby Sevens", "count": 25},
+      {"discipline": "Water Polo", "count": 22}
+    ]
+  },
+  "encoding": {
+    "x": {
+      "field": "discipline",
+      "type": "nominal",
+      "title": "",
+      "axis": {"labelAngle": 0},
+      "sort": ""
+    },
+    "y": {"field": "count", "type": "quantitative", "title": ""}
+  },
+  "layer": [
+    {"mark": "bar"},
+    {
+      "mark": {"type": "text", "align": "center", "baseline": "line-bottom"},
+      "encoding": {"text": {"field": "count", "type": "quantitative"}}
+    }
+  ],
+  "config": {}
+};
+    vegaEmbed("#vis1", spec, {mode: "vega-lite"}).then(console.log).catch(console.warn);
+  </script>
+            </div>
+        </div>
+        <div class="bottom3">
+            <div id="vis">
+            </div>
+            <script>
+    const spec1 = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "A population pyramid for the US in 2000.",
+  "data": {
+    "name": "table",
+    "values": [
+      {"year": 2022, "age": "Athletics", "sex": 2, "people": 969},
+      {"year": 2022, "age": "Swimming", "sex": 2, "people": 361},
+      {"year": 2022, "age": "Football", "sex": 2, "people": 264},
+      {"year": 2022, "age": "Rowing", "sex": 2, "people": 257},
+      {"year": 2022, "age": "Judo", "sex": 2, "people": 192},
+      {"year": 2022, "age": "Hockey", "sex": 2, "people": 192},
+      {"year": 2022, "age": "Shooting", "sex": 2, "people": 178},
+      {"year": 2022, "age": "Sailing", "sex": 2, "people": 175},
+      {"year": 2022, "age": "Handball", "sex": 2, "people": 168},
+      {"year": 2022, "age": "Rugby Sevens", "sex": 2, "people": 146},
+      {"year": 2022, "age": "Wrestling", "sex": 2, "people": 96},
+      {"year": 2022, "age": "Boxing", "sex": 2, "people": 102},
+      {"year": 2022, "age": "Volleyball", "sex": 2, "people": 144},
+      {"year": 2022, "age": "Basketball", "sex": 2, "people": 144},
+      {"year": 2022, "age": "Water Polo", "sex": 2, "people": 122},
+      {"year": 2022, "age": "Canoe Sprint", "sex": 2, "people": 123},
+      {"year": 2022, "age": "Baseball/Softball", "sex": 2, "people": 90},
+      {"year": 2022, "age": "Fencing", "sex": 2, "people": 107},
+      {"year": 2022, "age": "Cycling Road", "sex": 2, "people": 70},
+      {"year": 2022, "age": "Equestrian", "sex": 2, "people": 73},
+      {"year": 2022, "age": "Weightlifting", "sex": 2, "people": 98},
+      {"year": 2022, "age": "Artistic Gymnastics", "sex": 2, "people": 98},
+      {"year": 2022, "age": "Tennis", "sex": 2, "people": 94},
+      {"year": 2022, "age": "Cycling Track", "sex": 2, "people": 90},
+      {"year": 2022, "age": "Badminton", "sex": 2, "people": 86},
+      {"year": 2022, "age": "Table Tennis", "sex": 2, "people": 86},
+      {"year": 2022, "age": "Diving", "sex": 2, "people": 72},
+      {"year": 2022, "age": "Taekwondo", "sex": 2, "people": 65},
+      {"year": 2022, "age": "Archery", "sex": 2, "people": 64},
+      {"year": 2022, "age": "Golf", "sex": 2, "people": 60},
+      {"year": 2022, "age": "Triathlon", "sex": 2, "people": 55},
+      {"year": 2022, "age": "Artistic Swimming", "sex": 2, "people": 105},
+      {"year": 2022, "age": "Rhythmic Gymnastics", "sex": 2, "people": 96},
+      {"year": 2022, "age": "Beach Volleyball", "sex": 2, "people": 48},
+      {"year": 2022, "age": "Karate", "sex": 2, "people": 40},
+      {"year": 2022, "age": "Canoe Slalom", "sex": 2, "people": 41},
+      {"year": 2022, "age": "Skateboarding", "sex": 2, "people": 40},
+      {"year": 2022, "age": "Cycling Mountain Bike", "sex": 2, "people": 38},
+      {"year": 2022, "age": "Modern Pentathlon", "sex": 2, "people": 36},
+      {"year": 2022, "age": "3x3 Basketball", "sex": 2, "people": 32},
+      {"year": 2022, "age": "Marathon Swimming", "sex": 2, "people": 25},
+      {"year": 2022, "age": "Cycling BMX Racing", "sex": 2, "people": 24},
+      {"year": 2022, "age": "Sport Climbing", "sex": 2, "people": 20},
+      {"year": 2022, "age": "Surfing", "sex": 2, "people": 20},
+      {"year": 2022, "age": "Trampoline Gymnastics", "sex": 2, "people": 16},
+      {"year": 2022, "age": "Cycling BMX Freestyle", "sex": 2, "people": 10},
+      {"year": 2022, "age": "Athletics", "sex": 1, "people": 1072},
+      {"year": 2022, "age": "Swimming", "sex": 1, "people": 418},
+      {"year": 2022, "age": "Football", "sex": 1, "people": 344},
+      {"year": 2022, "age": "Rowing", "sex": 1, "people": 265},
+      {"year": 2022, "age": "Judo", "sex": 1, "people": 201},
+      {"year": 2022, "age": "Hockey", "sex": 1, "people": 192},
+      {"year": 2022, "age": "Shooting", "sex": 1, "people": 178},
+      {"year": 2022, "age": "Sailing", "sex": 1, "people": 175},
+      {"year": 2022, "age": "Handball", "sex": 1, "people": 168},
+      {"year": 2022, "age": "Rugby Sevens", "sex": 1, "people": 151},
+      {"year": 2022, "age": "Wrestling", "sex": 1, "people": 193},
+      {"year": 2022, "age": "Boxing", "sex": 1, "people": 187},
+      {"year": 2022, "age": "Volleyball", "sex": 1, "people": 144},
+      {"year": 2022, "age": "Basketball", "sex": 1, "people": 144},
+      {"year": 2022, "age": "Water Polo", "sex": 1, "people": 146},
+      {"year": 2022, "age": "Canoe Sprint", "sex": 1, "people": 126},
+      {"year": 2022, "age": "Baseball/Softball", "sex": 1, "people": 144},
+      {"year": 2022, "age": "Fencing", "sex": 1, "people": 108},
+      {"year": 2022, "age": "Cycling Road", "sex": 1, "people": 131},
+      {"year": 2022, "age": "Equestrian", "sex": 1, "people": 125},
+      {"year": 2022, "age": "Weightlifting", "sex": 1, "people": 99},
+      {"year": 2022, "age": "Artistic Gymnastics", "sex": 1, "people": 98},
+      {"year": 2022, "age": "Tennis", "sex": 1, "people": 97},
+      {"year": 2022, "age": "Cycling Track", "sex": 1, "people": 99},
+      {"year": 2022, "age": "Badminton", "sex": 1, "people": 87},
+      {"year": 2022, "age": "Table Tennis", "sex": 1, "people": 86},
+      {"year": 2022, "age": "Diving", "sex": 1, "people": 71},
+      {"year": 2022, "age": "Taekwondo", "sex": 1, "people": 65},
+      {"year": 2022, "age": "Archery", "sex": 1, "people": 64},
+      {"year": 2022, "age": "Golf", "sex": 1, "people": 60},
+      {"year": 2022, "age": "Triathlon", "sex": 1, "people": 55},
+      {"year": 2022, "age": "Artistic Swimming", "sex": 1, "people": 0},
+      {"year": 2022, "age": "Rhythmic Gymnastics", "sex": 1, "people": 0},
+      {"year": 2022, "age": "Beach Volleyball", "sex": 1, "people": 48},
+      {"year": 2022, "age": "Karate", "sex": 1, "people": 42},
+      {"year": 2022, "age": "Canoe Slalom", "sex": 1, "people": 41},
+      {"year": 2022, "age": "Skateboarding", "sex": 1, "people": 40},
+      {"year": 2022, "age": "Cycling Mountain Bike", "sex": 1, "people": 38},
+      {"year": 2022, "age": "Modern Pentathlon", "sex": 1, "people": 36},
+      {"year": 2022, "age": "3x3 Basketball", "sex": 1, "people": 32},
+      {"year": 2022, "age": "Marathon Swimming", "sex": 1, "people": 25},
+      {"year": 2022, "age": "Cycling BMX Racing", "sex": 1, "people": 24},
+      {"year": 2022, "age": "Sport Climbing", "sex": 1, "people": 20},
+      {"year": 2022, "age": "Surfing", "sex": 1, "people": 20},
+      {"year": 2022, "age": "Trampoline Gymnastics", "sex": 1, "people": 16},
+      {"year": 2022, "age": "Cycling BMX Freestyle", "sex": 1, "people": 9}
+    ]
   },
   "transform": [
+    {"filter": "datum.year == 2022"},
+    {"calculate": "datum.sex == 2 ? 'Female' : 'Male'", "as": "gender"}
+  ],
+  "spacing": 0,
+  "hconcat": [
     {
-      "lookup": "properties.NAME",
-      "from": {
-        "data": {
-          "url": "https://raw.githubusercontent.com/HanMuYa/python-learning/master/Tokyo_2021_dataset.csv"
+      "transform": [{"filter": {"field": "gender", "equal": "Male"}}],
+      "title": "Male",
+      "layer": [
+        {"mark": "bar"},
+        {
+          "mark": {"type": "text", "align": "right", "baseline": "middle"},
+          "encoding": {"text": {"field": "people", "type": "quantitative"}}
+        }
+      ],
+      "encoding": {
+        "y": {"field": "age", "title": null, "axis": null, "sort": "-x"},
+        "x": {
+          "aggregate": "sum",
+          "field": "people",
+          "title": "population",
+          "axis": {"format": "s"},
+          "sort": "descending"
         },
-        "key": "Country",
-        "fields": ["Gold"]
+        "color": {"field": "#FF9DA7", "legend": null}
       }
     },
-    {"calculate": "datum.Gold / 1 + 0.1", "as": "Gold"},
-  ],
-  "mark": {"type": "geoshape"},
-  "encoding": {
-    "color": {
-      "field": "Gold",
-      "type": "quantitative",
-      "scale": {"type": "log"}
+    {
+      "width": 20,
+      "view": {"stroke": null},
+      "mark": {"type": "text", "align": "center"},
+      "encoding": {
+        "y": {"field": "age", "type": "ordinal", "axis": null, "sort": ""},
+        "text": {"field": "age"}
+      }
     },
-    "tooltip": [
-      {"field": "properties.NAME", "type": "nominal", "title": "Country"},
-      {"field": "Gold", "type": "quantitative", "title": "Achieved Gold Medals"}
-    ]
-  }
+    {
+      "transform": [{"filter": {"field": "gender", "equal": "Female"}}],
+      "title": "Female",
+      "layer": [
+        {"mark": "bar"},
+        {
+          "mark": {"type": "text", "align": "left", "baseline": "middle"},
+          "encoding": {"text": {"field": "people", "type": "quantitative"}}
+        }
+      ],
+      "encoding": {
+        "y": {"field": "age", "axis": null, "sort": "-x"},
+        "x": {
+          "aggregate": "sum",
+          "field": "people",
+          "title": "population",
+          "axis": {"format": "s"},
+          "sort": "ascending"
+        },
+        "color": {
+          "field": "gender",
+          "scale": {"range": ["#8DB1D1", "#FF9DA7"]},
+          "legend": null
+        }
+      }
+    }
+  ],
+  "config": {"view": {"stroke": null}, "axis": {"grid": false}}
 };
-vegaEmbed("#choropleth_map", spec2);
-</script>
-
+    vegaEmbed("#vis", spec1, {mode: "vega-lite"}).then(console.log).catch(console.warn);
+  </script>
+        </div>
+    </div>
+    </div>
 </body>
 </html>

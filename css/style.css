@@ -1,0 +1,30 @@
+﻿*{ margin:0px; padding:0px;}
+body 
+{
+    line-height:1.5;
+    
+}
+img{ vertical-align:middle; max-width:100%; }
+.wrap{ width:1200px; margin:0 auto; border:5px solid #90dba1; }
+.top{  border-bottom:5px solid #90dba1; padding:10px; overflow:hidden;}
+.top .logo{ float:left; width:300px; padding-top:20px; margin-right:20px; }
+.top .logo p{ font-size:12px; color:#90dba1; line-height:1; }
+.top .text{ float:left; width:859px; }
+.top .text .spics img{ margin:0px 12px; }
+.top .text h1{ text-align:center; color:#68696b; margin:10px 0px; }
+.index-map{  border-bottom:5px solid #90dba1; padding:10px; overflow:hidden;}
+.vega-embed.has-actions {
+    padding-right: 24px !important;
+}
+.bottom{ overflow:hidden; }
+.bottom .bottom1{ float:left; width:180px;  border-right:5px solid #90dba1; padding:10px; }
+.bottom .bottom2{ float:left; width:660px; border-right:5px solid #90dba1;  }
+.bottom .bottom3{ float:left;width:330px;  }
+.bottom .bottom1 div{ text-align:center; margin-bottom:21px; }
+.bottom .bottom1 div img{ width:60px; }
+.bottom .bottom3 canvas{ max-width:100%; height:800px; }
+.bottom .bottom2 canvas{ max-width:100%; }
+.b2-1{ border-bottom:5px solid #90dba1; overflow:hidden;}
+.b2-3{ border-right:5px solid #90dba1; float:left; width:327px; }
+.b2-4{ float:left;  width:327px;}
+#vis2 canvas{ height:461px; }
